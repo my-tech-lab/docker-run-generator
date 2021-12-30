@@ -61,7 +61,14 @@ docker run \
         {{- range $n, $conf := .Networks}}
             {{- with $conf}}
   --network {{printf "%q" $n}} \
-	{{- end}}
+                {{- range $a := $conf.Aliases}}
+  --network-alias {{printf "%q" $a}} \
+                {{- end}}
+            {{- end}}
+        {{- end}}
+    {{- end}}
+    {{- with .Config}}
+        {{- if .Hostname}}
   --hostname {{printf "%q" .Hostname}} \
         {{- end}}
         {{- if .Domainname}}
